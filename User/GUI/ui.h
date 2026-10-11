@@ -11,13 +11,24 @@ extern "C" {
 #endif
 
 #include "lvgl.h"
+#include "stdio.h"
+#include "PageManager.h"
 
-
-///////////////////// SCREENS ////////////////////
-
-#include "./screens/ui_HomePage.h"
-
-///////////////////// VARIABLES ////////////////////
+LV_FONT_DECLARE(ui_font_Cuyuan18);
+LV_FONT_DECLARE(ui_font_Cuyuan20);
+LV_FONT_DECLARE(ui_font_Cuyuan24);
+LV_FONT_DECLARE(ui_font_Cuyuan30);
+LV_FONT_DECLARE(ui_font_Cuyuan38);
+LV_FONT_DECLARE(ui_font_Cuyuan48);
+LV_FONT_DECLARE(ui_font_Cuyuan80);
+LV_FONT_DECLARE(ui_font_Cuyuan100);
+LV_FONT_DECLARE(ui_font_iconfont16);
+LV_FONT_DECLARE(ui_font_iconfont24);
+LV_FONT_DECLARE(ui_font_iconfont28);
+LV_FONT_DECLARE(ui_font_iconfont30);
+LV_FONT_DECLARE(ui_font_iconfont32);
+LV_FONT_DECLARE(ui_font_iconfont34);
+LV_FONT_DECLARE(ui_font_iconfont45);
 
 // UI INIT
 void ui_init(void);

@@ -81,26 +81,82 @@ void StepsDataUpdateTask(void *argument)
 
 void EcompassDataUpdateTask(void *argument)
 {
+    if (false == HWInterface.Ecompass.ConnectionError)
+    {
+        HWInterface.Ecompass.WakeUp();
+    }
     for (;;)
     {
+        // if (false == HWInterface.Ecompass.ConnectionError)
+        // {
+        //     /* 1. 唤醒 BNO055（从挂起模式回到 NDOF 模式） */
+        //     if (false == HWInterface.Ecompass.WakeUp())
+        //     {
+        //         printf("EcompassDataUpdateTask: WakeUp failed\n");
+        //         goto delay;
+        //     }
+
+        //     /* 2. 检查校准状态（磁力计必须是 3 才准） */
+        //     if (BNO055_ReadCalibStat(&HWInterface.Ecompass.calib))
+        //     {
+        //         if (HWInterface.Ecompass.calib.mag < 3)
+        //         {
+        //             printf("Ecompass not calibrated: sys=%d gyro=%d accel=%d mag=%d\n",
+        //                    HWInterface.Ecompass.calib.sys, 
+        //                    HWInterface.Ecompass.calib.gyro, 
+        //                    HWInterface.Ecompass.calib.accel, 
+        //                    HWInterface.Ecompass.calib.mag);
+        //             /* 可选：在 UI 上提示用户做"8"字校准 */
+        //         }
+        //     }
+        //     else
+        //     {
+        //         printf("EcompassDataUpdateTask: ReadCalibStat failed\n");
+        //         goto delay;
+        //     }
+
+        //     /* 3. 读取欧拉角（heading 就是方位角） */
+        //     if (BNO055_ReadEuler(&HWInterface.Ecompass.euler))
+        //     {
+        //         /* 4. 应用安装偏移 + 磁偏角 */
+        //         HWInterface.Ecompass.euler.heading += COMPASS_HEADING_OFFSET + MAGNETIC_DECLINATION;
+
+        //         /* 归一化到 0~360 */
+        //         while (HWInterface.Ecompass.euler.heading < 0)
+        //         {
+        //             HWInterface.Ecompass.euler.heading += 360.0f;
+        //         }
+        //         while (HWInterface.Ecompass.euler.heading >= 360.0f)
+        //         {
+        //             HWInterface.Ecompass.euler.heading -= 360.0f;
+        //         }
+
+        //         /* 5. 低通滤波*/
+        //         static float heading_filtered = 0.0f;
+        //         float diff = HWInterface.Ecompass.euler.heading - heading_filtered;
+        //         if (diff > 180.0f) diff -= 360.0f;
+        //         if (diff < -180.0f) diff += 360.0f;
+        //         heading_filtered += diff * 0.2f; // 低通滤波系数 0.2
+        //         if (heading_filtered >= 360.0f) heading_filtered -= 360.0f;
+        //         if (heading_filtered < 0.0f) heading_filtered += 360.0f;
+
+        //         HWInterface.Ecompass.euler.heading = heading_filtered;
+        //     }
+        // }
+
         if (false == HWInterface.Ecompass.ConnectionError)
         {
-            if (false == HWInterface.Ecompass.WakeUp())
-            {
-                printf("EcompassDataUpdateTask: WakeUp failed\n");
-                goto delay;
-            }
             int16_t Xa, Ya, Za, Xm, Ym, Zm;
             LSM303_ReadAcceleration(&Xa, &Ya, &Za);
             LSM303_ReadMagnetic(&Xm, &Ym, &Zm);
-            float tmp = Azimuth_Calculate(Xa, Ya, Za, Xm, Ym, Zm) + 0;      //0 offset
-            if (tmp < 0)
+            float temp = Azimuth_Calculate(Xa, Ya, Za, Xm, Ym, Zm) + COMPASS_HEADING_OFFSET;
+            if (temp < 0)
             {
-                tmp += 360;
+                temp += 360.0f;
             }
-            if (tmp >= 0 && tmp <= 360)
+            if (temp >=0 && temp <= 360)
             {
-                HWInterface.Ecompass.direction = (uint16_t)tmp;
+                HWInterface.Ecompass.euler.heading = temp;
             }
         }
         delay:

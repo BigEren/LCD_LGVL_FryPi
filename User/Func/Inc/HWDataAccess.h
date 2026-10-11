@@ -1,17 +1,16 @@
 /**
- *  @addtogroup  Hareware Middle Layer
- *  @brief       Hardware Middle Layer, to access data from BSP and STM32 HAL Library
+ * @addtogroup Hardware_Middle_Layer
+ * @brief      Hardware Middle Layer, to access data from BSP and STM32 HAL Library.
+ * @{
+ * @file       HWDataAccess.h
+ * @brief      Middleware for UI and APP layer to get hardware data.
+ * @details    You can enable or disable hardware modules in this file.
  *
- *  @{
- *      @file       HWDataAccess.c
- *      @brief      middleware, for UI and APP Layer to get the hardware data
- *      @details    you can enable or disable in .h file.
- * 					加这个文件是为了：
- *                    1.方便UI移植, 你要把工程移植到PC仿真,直接把MidFunc中的文件和UI文件都复制过去,然后直接把.h文件中的HW_USE_HARDWARE变成0就行了.
- *   				  2.方便控制硬件，自由地把.h文件中的HW_USE_xxx变成0就可以失能不想用的硬件
- * 					
+ *             添加此文件的目的：
+ *             1. 方便 UI 移植：若将工程移植到 PC 仿真，可直接复制 MidFunc 与 UI 文件，
+ *                并关闭 HW_USE_HARDWARE。
+ *             2. 方便控制硬件：将对应的 HW_USE_xxx 设为 0，即可失能不需要的硬件。
  */
-
 
 #ifndef __HW_DATA_ACCESS_H__
 #define __HW_DATA_ACCESS_H__
@@ -22,30 +21,29 @@ extern "C" {
 
 /*==================== Hardware Define ====================*/
 /**
- *  if not use, just set 0
- *
- *
- *  if just test ui, no hardware, just set HW_USE_HARDWARE 0
- *
+ * @brief 硬件总开关。
+ * @note  若仅测试 UI、不接硬件，可关闭 HW_USE_HARDWARE，例如注释掉该宏。
+ *        若使用硬件，则按需将下面的 HW_USE_xxx 设为 0/1。
  */
 #define HW_USE_HARDWARE 1
 
 #ifdef HW_USE_HARDWARE
-
-    #define HW_USE_RTC 1
-    #define HW_USE_LCD 1
-    #define HW_USE_AHT20 1
-    #define HW_USE_MAX30102 1
-    #define HW_USE_IMU 1
-    #define HW_USE_GY39 1
-    #define HW_USE_Ecompass  1
-
+    #define HW_USE_RTC        1  /**< RTC 实时时钟 */
+    #define HW_USE_LCD        1  /**< LCD 显示屏 */
+    #define HW_USE_AHT20      1  /**< AHT20 温湿度传感器 */
+    #define HW_USE_MAX30102   1  /**< MAX30102 心率血氧传感器 */
+    #define HW_USE_IMU        1  /**< MPU6050 IMU */
+    #define HW_USE_GY39       1  /**< GY39 传感器 */
+    #define HW_USE_Ecompass   1  /**< 电子罗盘 */
 #endif
 
-
+/* Ecompass 子开关 */
+#if HW_USE_Ecompass
+    #define HW_USE_BNO055      0  /**< 使用 BNO055 */
+    #define HW_USE_LSM303DLH   1  /**< 使用 LSM303DLH */
+#endif
 
 /*==================== Include ====================*/
-
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -78,161 +76,162 @@ extern "C" {
 
 #if HW_USE_Ecompass
     #include "LSM303.h"
+    #include "bno055.h"
 #endif
 
 #include "step_conter.h"
 #include "health_sensor.h"
 #include "wrist_detect.h"
 
-
-
 /*==================== RTC ====================*/
 
 /**
- *  @brief       RTC Data Time Interface
- */
-typedef struct 
-{
-    uint8_t WeekDay;
-
-    uint8_t Month;
-
-    uint8_t Date;
-
-    uint8_t Year;
-
-    uint8_t Hour;
-
-    uint8_t Minute;
-
-    uint8_t Second;
-
-} HW_DateTime_Interface_t;
-
-/**
- *  @brief       RTC Settime Interface
+ * @brief RTC 日期时间数据
  */
 typedef struct
 {
-    HW_DateTime_Interface_t nowdateTime;
-    void (*GetTimeDate)(HW_DateTime_Interface_t *nowdateTime);
-    void (*SetDate)(uint8_t year, uint8_t month, uint8_t date);
-    void (*SetTime)(uint8_t hour, uint8_t minute, uint8_t second);
-    uint8_t (*CalculateWeekDay)(uint8_t setyear, uint8_t setmonth, uint8_t setdate, uint8_t century);
+    uint8_t WeekDay;  /**< 星期几 */
+    uint8_t Month;    /**< 月份 */
+    uint8_t Date;     /**< 日期 */
+    uint8_t Year;     /**< 年份 */
+    uint8_t Hour;     /**< 小时 */
+    uint8_t Minute;   /**< 分钟 */
+    uint8_t Second;   /**< 秒 */
+} HW_DateTime_Interface_t;
 
+/**
+ * @brief RTC 接口
+ */
+typedef struct
+{
+    HW_DateTime_Interface_t nowdateTime;  /**< 当前日期时间 */
+
+    void (*GetTimeDate)(HW_DateTime_Interface_t *nowdateTime);  /**< 获取当前日期时间 */
+    void (*SetDate)(uint8_t year, uint8_t month, uint8_t date); /**< 设置日期 */
+    void (*SetTime)(uint8_t hour, uint8_t minute, uint8_t second); /**< 设置时间 */
+    uint8_t (*CalculateWeekDay)(uint8_t setyear, uint8_t setmonth, uint8_t setdate, uint8_t century); /**< 计算星期几 */
 } HW_RTC_Interface_t;
 
 /*==================== LCD ====================*/
 
 /**
- *  @brief       LCD Interface
+ * @brief LCD 接口
  */
 typedef struct
 {
-    void (*SetLight)(uint8_t light);
-
+    void (*SetLight)(uint8_t light);  /**< 设置 LCD 亮度 */
 } HW_LCD_Interface_t;
 
-
-
 /*==================== AHT20 ====================*/
-typedef struct 
+
+/**
+ * @brief AHT20 接口
+ */
+typedef struct
 {
-    bool ConnectionError;
+    bool ConnectionError;  /**< 连接错误标志 */
+    AHT20_Data_t data;     /**< AHT20 数据 */
 
-    AHT20_Data_t data;
-
-    bool (*Init)(void);
-    bool (*GetData)(void);
-
+    bool (*Init)(void);    /**< 初始化 AHT20 */
+    bool (*GetData)(void); /**< 获取 AHT20 数据 */
 } HW_AHT20_Interface_t;
 
 /*==================== MAX30102 ====================*/
+
+/**
+ * @brief MAX30102 接口
+ */
 typedef struct
 {
-    bool ConnectionError;
+    bool ConnectionError;          /**< 连接错误标志 */
+    MAX30102_Data_t data;          /**< MAX30102 原始数据 */
+    HealthData_t health_data;      /**< 健康数据 */
 
-    MAX30102_Data_t data;
-    HealthData_t health_data;
-
-    bool (*Init)(void);
-    bool (*GetI_RData)(void);
-    bool (*ReadHealthData)(void);
-    void (*Sleep)(void);
-    void (*Start)(void);
-
+    bool (*Init)(void);            /**< 初始化 MAX30102 */
+    bool (*GetI_RData)(void);      /**< 获取红外原始数据 */
+    bool (*ReadHealthData)(void);  /**< 读取健康数据 */
+    void (*Sleep)(void);           /**< 进入休眠 */
+    void (*Start)(void);           /**< 启动测量 */
 } HW_MAX30102_Interface_t;
 
 /*==================== MPU6050 ====================*/
 
 /**
-  * @brief  HW IMU wrist state defines
-  */
-#define WRIST_UP 1
-#define WRIST_DOWN 0
+ * @brief 手腕状态
+ */
+#define WRIST_UP   1  /**< 手腕抬起 */
+#define WRIST_DOWN 0  /**< 手腕放下 */
 
 /**
- *  @brief       MPU6050 Interface
+ * @brief MPU6050 / IMU 接口
  */
-typedef struct 
+typedef struct
 {
-    bool ConnectionError;
+    bool ConnectionError;      /**< 连接错误标志 */
+    uint16_t Steps;            /**< 步数 */
+    uint8_t wrist_state;       /**< 手腕状态 */
+    uint8_t wrist_is_enabled;  /**< 手腕检测使能状态 */
 
-    uint16_t Steps;
-    uint8_t wrist_state;
-    uint8_t wrist_is_enabled;
-
-    bool (*Init)(void);
-    uint16_t (*GetSteps)(void);
-    void (*WristEnable)(void);
-    void (*WristDisable)(void);
-    int (*SetSteps)(unsigned long count);
-
+    bool (*Init)(void);        /**< 初始化 IMU */
+    uint16_t (*GetSteps)(void);/**< 获取步数 */
+    void (*WristEnable)(void); /**< 使能手腕检测 */
+    void (*WristDisable)(void);/**< 失能手腕检测 */
+    int (*SetSteps)(unsigned long count); /**< 设置步数 */
 } HW_IMU_Interface_t;
 
 /*==================== GY39 ====================*/
-typedef struct 
+
+/**
+ * @brief GY39 接口
+ */
+typedef struct
 {
-    bool ConnectionError;
+    bool ConnectionError;  /**< 连接错误标志 */
+    GY39_Data_t data;      /**< GY39 数据 */
 
-    GY39_Data_t data;
-
-    bool (*Init)(void);
-    bool (*GetData)(void);
-
+    bool (*Init)(void);    /**< 初始化 GY39 */
+    bool (*GetData)(void); /**< 获取 GY39 数据 */
 } HW_GY39_Interface_t;
 
-/*==================== LSM303 ====================*/
-/**
- *  @brief       LSM_303 Ecompass Interface
- */
-typedef struct 
-{   
-    bool ConnectionError;
-    uint16_t direction;
-    bool (*Init)(void);
-    bool (*WakeUp)(void);
-    void (*Sleep)(void);
+/*==================== BNO055 / Ecompass ====================*/
 
+/**
+ * @brief 电子罗盘接口
+ */
+typedef struct
+{
+    bool ConnectionError;          /**< 连接错误标志 */
+    BNO055_Euler_t euler;          /**< 欧拉角 */
+    BNO055_CalibStat_t calib;      /**< 校准状态 */
+
+    bool (*Init)(void);            /**< 初始化电子罗盘 */
+    bool (*WakeUp)(void);          /**< 唤醒 */
+    void (*Sleep)(void);           /**< 休眠 */
 } HW_Ecompass_Interface_t;
 
 /*==================== Hardware Interface ====================*/
-typedef struct 
+
+/**
+ * @brief 全局硬件接口集合
+ */
+typedef struct
 {
-    HW_RTC_Interface_t RealTimeClock;
-    HW_LCD_Interface_t LCD;
-    HW_AHT20_Interface_t AHT20;
-    HW_MAX30102_Interface_t MAX30102;
-    HW_IMU_Interface_t IMU;
-    HW_GY39_Interface_t GY39;
-    HW_Ecompass_Interface_t Ecompass;
+    HW_RTC_Interface_t RealTimeClock;      /**< RTC 接口 */
+    HW_LCD_Interface_t LCD;                /**< LCD 接口 */
+    HW_AHT20_Interface_t AHT20;            /**< AHT20 接口 */
+    HW_MAX30102_Interface_t MAX30102;      /**< MAX30102 接口 */
+    HW_IMU_Interface_t IMU;                /**< IMU 接口 */
+    HW_GY39_Interface_t GY39;              /**< GY39 接口 */
+    HW_Ecompass_Interface_t Ecompass;      /**< 电子罗盘接口 */
 } HW_Interface_t;
 
 /* 全局唯一的硬件接口实例 */
 extern HW_Interface_t HWInterface;
 
 #ifdef __cplusplus
-} /*extern "C"*/
+} /* extern "C" */
 #endif
 
-#endif /* HW_USE_HARDWARE */
+#endif /* __HW_DATA_ACCESS_H__ */
+
+/** @} */ /* Hardware_Middle_Layer */

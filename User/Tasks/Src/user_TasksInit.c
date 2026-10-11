@@ -78,19 +78,11 @@ const osThreadAttr_t user_LVGLTask_attributes = {
 //     .priority = (osPriority_t)osPriorityLow1,
 // };
 
-// GY39Task Init
-// osThreadId_t user_GY39TaskHandle = NULL;
-// const osThreadAttr_t user_GY39Task_attributes = {
-//     .name = "user_GY39Task",
-//     .stack_size = 128 * 10,
-//     .priority = (osPriority_t)osPriorityLow1,
-// };
-
 // MPUCheckTask Init
 osThreadId_t MPUCheckTaskHandle = NULL;
 const osThreadAttr_t MPUCheckTask_attributes = {
     .name = "MPUCheckTask",
-    .stack_size = 128 * 3,
+    .stack_size = 128 * 10,
     .priority = (osPriority_t)osPriorityLow1,
 };
 
@@ -114,7 +106,7 @@ const osThreadAttr_t HealthDataUpdateTask_attributes = {
 osThreadId_t StepsDataUpdateTaskHandle = NULL;
 const osThreadAttr_t StepsDataUpdateTask_attributes = {
     .name = "StepsDataUpdateTask",
-    .stack_size = 128 * 5,
+    .stack_size = 128 * 10,
     .priority = (osPriority_t)osPriorityLow1,
 };
 
@@ -146,7 +138,7 @@ const osThreadAttr_t IdleEnterTask_attributes = {
 osThreadId_t EcompassDataUpdateTaskHandle = NULL;
 const osThreadAttr_t EcompassDataUpdateTask_attributes = {
     .name = "EcompassDataUpdateTask",
-    .stack_size = 128 * 5,
+    .stack_size = 128 * 8,
     .priority = (osPriority_t)osPriorityLow1,
 };
 
@@ -206,7 +198,7 @@ void user_Tasks_Init(void)
     StopEnterTaskHandle = osThreadNew(StopEnterTask, NULL, &StopEnterTask_attributes);
     IdleEnterTaskHandle = osThreadNew(IdleEnterTask, NULL, &IdleEnterTask_attributes);
     PrintSensDataTaskHandle = osThreadNew(user_PrintSensDataTask, NULL, &PrintSensDataTask_attributes);
-    //EcompassDataUpdateTaskHandle = osThreadNew(EcompassDataUpdateTask, NULL, &EcompassDataUpdateTask_attributes);   
+    EcompassDataUpdateTaskHandle = osThreadNew(EcompassDataUpdateTask, NULL, &EcompassDataUpdateTask_attributes);   
     GY39DataUpdateTaskHandle = osThreadNew(GY39DataUpdateTask, NULL, &GY39DataUpdateTask_attributes);
     KeyTaskHandle = osThreadNew(KeyTask, NULL, &KeyTask_attributes);
     ScrRenewTaskHandle = osThreadNew(ScrRenewTask, NULL, &ScrRenewTask_attributes);

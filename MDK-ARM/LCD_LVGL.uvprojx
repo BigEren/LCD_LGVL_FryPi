@@ -333,10 +333,10 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls></MiscControls>
+              <MiscControls>--locale=english</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F411xE</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../BSP/IIC/Inc;../BSP/KEY;../BSP/LCD;../BSP/TOUCH;../Middlewares/LVGL;../Middlewares/LVGL/porting;../Middlewares/LVGL/src;../User/GUI;../User/Tasks/Inc;../SYSTEM;../BSP/AHT20;../BSP/MPU6050;../BSP/MAX30102/Inc;../BSP/Algorithm;../BSP/GY39;../User/Func/Inc;../HealthSensor;../User/TaskOut/Inc;../BSP/MPU6050/eMPL;../BSP/W25QXX/Inc;../User;../BSP/LSM303DLH</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../BSP/IIC/Inc;../BSP/KEY;../BSP/LCD;../BSP/TOUCH;../Middlewares/LVGL;../Middlewares/LVGL/porting;../Middlewares/LVGL/src;../User/GUI;../User/Tasks/Inc;../SYSTEM;../BSP/AHT20;../BSP/MPU6050;../BSP/MAX30102/Inc;../BSP/Algorithm;../BSP/GY39;../User/Func/Inc;../HealthSensor;../User/TaskOut/Inc;../BSP/MPU6050/eMPL;../BSP/W25QXX/Inc;../User;../BSP/GY-BNO055;../BSP/LSM303DLH;../User/GUI/screens/Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -886,6 +886,11 @@
               <FilePath>..\BSP\W25QXX\Src\w25q.c</FilePath>
             </File>
             <File>
+              <FileName>bno055.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\GY-BNO055\bno055.c</FilePath>
+            </File>
+            <File>
               <FileName>LSM303.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\LSM303DLH\LSM303.c</FilePath>
@@ -961,9 +966,104 @@
               <FilePath>..\User\GUI\ui.c</FilePath>
             </File>
             <File>
+              <FileName>ui_helpers.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\ui_helpers.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_MenuPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_MenuPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_Cuyuan18.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_Cuyuan18.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_Cuyuan20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_Cuyuan20.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_Cuyuan24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_Cuyuan24.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_Cuyuan30.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_Cuyuan30.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_Cuyuan38.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_Cuyuan38.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_Cuyuan48.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_Cuyuan48.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_Cuyuan80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_Cuyuan80.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_Cuyuan100.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_Cuyuan100.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_iconfont16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_iconfont16.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_iconfont24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_iconfont24.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_iconfont28.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_iconfont28.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_iconfont30.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_iconfont30.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_iconfont32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_iconfont32.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_iconfont34.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_iconfont34.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_font_iconfont45.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\Fonts\ui_font_iconfont45.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_compass_needle_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\IMGs\ui_img_compass_needle_png.c</FilePath>
+            </File>
+            <File>
               <FileName>ui_HomePage.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\GUI\screens\ui_HomePage.c</FilePath>
+              <FilePath>..\User\GUI\screens\Src\ui_HomePage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_CalendarPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_CalendarPage.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1864,6 +1964,11 @@
               <FileName>HWDataAccess.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Func\Src\HWDataAccess.c</FilePath>
+            </File>
+            <File>
+              <FileName>PageManager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Func\Src\PageManager.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -7,6 +7,9 @@
 #include "user_MessageQueue.h"
 #include "usart.h"
 #include "key.h"
+#include "ui_HomePage.h"
+#include "lcd.h"
+#include "spi.h"
 
 /* Idle Time Count */
 uint16_t IdleTimeCount = 0;
@@ -20,6 +23,8 @@ void IdleEnterTask(void *argument)
 {
     uint8_t Idlestr = 0;
     uint8_t IdleBreak = 0;
+
+    static uint8_t last_light = 0;
 
     for (;;)
     {
@@ -40,8 +45,11 @@ void IdleEnterTask(void *argument)
             1) == osOK)
         {
             IdleTimeCount = 0;
-            LCD_Set_Light(5);
-            LCD_Set_Light(100);
+            if(last_light != ui_LightSliderValue)
+            {
+                last_light = ui_LightSliderValue;
+                LCD_Set_Light(last_light);
+            }
         }
 
         osDelay(10);
@@ -73,13 +81,13 @@ void StopEnterTask(void *argument)
             system_in_sleep  = 1;
 
             /* 睡眠前处理 */
-            printf("Enter Sleep\r\n");
+            printf("Enter Sleep:%d\r\n", IdleTimeCount);
 
             // 关闭 UART
             //HAL_UART_MspDeInit(&huart1);
 
             // lcd
-            //LCD_RES_Clr();
+            LCD_RES_Clr();
             LCD_Close_Light();
 
             // 关闭 Touch
@@ -89,8 +97,6 @@ void StopEnterTask(void *argument)
 
 			/********************************** 系统睡眠处理 ************************************/
             vTaskSuspendAll();
-            CLEAR_BIT(SysTick->CTRL, SysTick_CTRL_ENABLE_Msk);
-            HAL_PWR_EnterSTOPMode(PWR_MAINREGULATOR_ON, PWR_STOPENTRY_WFI);
             //systick int
             CLEAR_BIT(SysTick->CTRL, SysTick_CTRL_ENABLE_Msk);
             //enter stop mode
@@ -102,8 +108,8 @@ void StopEnterTask(void *argument)
 
             //resume run mode and reset the sysclk
 			SET_BIT(SysTick->CTRL, SysTick_CTRL_TICKINT_Msk);
-            HAL_SYSTICK_Config(SystemCoreClock / (1000U / uwTickFreq));
             SystemClock_Config();
+            HAL_SYSTICK_Config(SystemCoreClock / (1000U / uwTickFreq));
             system_in_sleep = 0;
             xTaskResumeAll();
 
@@ -150,7 +156,7 @@ void StopEnterTask(void *argument)
 			//lcd
 			LCD_Init();
             LCD_Open_Light();
-			LCD_Set_Light(100);
+            LCD_Set_Light(ui_LightSliderValue);
 			//touch
 			CST816_Wakeup();
             printf("System Wakeup\r\n");

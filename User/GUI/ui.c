@@ -1,5 +1,7 @@
 
 #include "ui.h"
+#include "ui_HomePage.h"
+#include "ui_helpers.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -16,17 +18,27 @@
 
 ///////////////////// SCREENS ////////////////////
 
+/////////////////////// Timer //////////////////////
+/**
+ * Main timer for Refreshing the screens
+ */
+static void main_timer(lv_timer_t * timer)
+{
+    // printf("timer\r\n");
+}
+
 void ui_init(void)
 {
     lv_disp_t * dispp = lv_disp_get_default();
     lv_theme_t * theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
                                                true, LV_FONT_DEFAULT);
     lv_disp_set_theme(dispp, theme);
-    ui_HomePage_screen_init();
-    lv_disp_load_scr(ui_HomePage);
+    Pages_Init();
+    //timer
+    lv_timer_t * ui_MainTimer = lv_timer_create(main_timer, 1000,  NULL);
 }
 
 void ui_destroy(void)
 {
-    ui_HomePage_screen_destroy();
+    
 }

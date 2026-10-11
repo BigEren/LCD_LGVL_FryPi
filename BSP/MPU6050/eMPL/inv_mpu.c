@@ -3001,7 +3001,7 @@ u8 mpu_dmp_init(void)
          * INV_XYZ_ACCEL:
          * 只让加速度数据进入FIFO
          */
-        res = mpu_configure_fifo(INV_XYZ_GYRO | INV_XYZ_ACCEL);
+        res = mpu_configure_fifo(INV_XYZ_ACCEL);
 
         if(res)
             return 2;

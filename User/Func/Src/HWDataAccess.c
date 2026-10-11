@@ -360,12 +360,17 @@ static bool HW_GY39_GetData(void)
     return false;
 }
 
-/*=================== LSM303 =====================*/
+/*=================== BNO055 =====================*/
 /*******************************************************************************/
 static bool HW_Ecompass_Init(void)
 {
     #if HW_USE_Ecompass
-        return LSM303DLH_Init() == 0;
+        #if HW_USE_BNO055
+        return BNO055_Init();
+        #endif
+        #if HW_USE_LSM303DLH
+        return LSM303DLH_Init();
+        #endif
     #endif
     return false;
 }
@@ -373,7 +378,12 @@ static bool HW_Ecompass_Init(void)
 static bool HW_Ecompass_Sleep(void)
 {
     #if HW_USE_Ecompass
+        #if HW_USE_BNO055
+        return BNO055_Sleep();
+        #endif
+        #if HW_USE_LSM303DLH
         return LSM303DLH_Sleep();
+        #endif
     #endif
     return false;
 }
@@ -381,12 +391,15 @@ static bool HW_Ecompass_Sleep(void)
 static bool HW_Ecompass_WakeUp(void)
 {
     #if HW_USE_Ecompass
-        return LSM303DLH_Wakeup();
+        #if HW_USE_BNO055
+        return BNO055_WakeUp();
+        #endif
+        #if HW_USE_LSM303DLH
+        return LSM303DLH_WakeUp();
+        #endif
     #endif
     return false;
 }
-
-
 
 /**
  * @brief 初始化硬件数据访问接口
@@ -438,7 +451,8 @@ HW_Interface_t HWInterface = {
     },
     .Ecompass = {
         .ConnectionError = true,
-        .direction = 45,
+        .euler = {0},
+        .calib = {0},
         .Init = HW_Ecompass_Init,
         .WakeUp = HW_Ecompass_WakeUp,
         .Sleep = HW_Ecompass_Sleep

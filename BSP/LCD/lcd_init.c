@@ -52,7 +52,10 @@ void LCD_GPIO_Init(void)
 void LCD_Writ_Bus(u8 dat) 
 {	
 	//hard SPI
-	HAL_SPI_Transmit(&hspi1,&dat,1,1);
+	HAL_StatusTypeDef status = HAL_SPI_Transmit(&hspi1,&dat,1,1);
+	if (status != HAL_OK) {
+        printf("SPI Bus Error: %d\r\n", status); // 如果唤醒后疯狂打印这个，就是 SPI 挂了
+    }
 	
 	//soft SPI
 	/*
@@ -199,16 +202,16 @@ void LCD_ST7789_SleepOut(void)
 ******************************************************************************/
 void LCD_Init(void)
 {
-	LCD_GPIO_Init();//初始化GPIO
+	LCD_GPIO_Init();	//初始化GPIO
 	LCD_CS_Clr();		//chip select
 	
-	LCD_RES_Clr();	//复位
-	delay_ms_noOS(100);
+	LCD_RES_Clr();		//复位
+	HAL_Delay(100);
 	LCD_RES_Set();
-	delay_ms_noOS(100);
+	HAL_Delay(100);
 	
 	LCD_WR_REG(0x11); 
-	delay_ms_noOS(120); 
+	HAL_Delay(120); 
 	LCD_WR_REG(0x36); 
 	if(USE_HORIZONTAL==0)LCD_WR_DATA8(0x00);
 	else if(USE_HORIZONTAL==1)LCD_WR_DATA8(0xC0);

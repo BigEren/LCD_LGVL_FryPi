@@ -154,16 +154,16 @@ void user_HardwareInitTask(void *argument)
             HWInterface.MAX30102.Sleep();
         }
 
-        // num = 3;
-        // while (num && HWInterface.Ecompass.ConnectionError == true)
-        // {
-        //     num--;
-        //     HWInterface.Ecompass.ConnectionError = !HWInterface.Ecompass.Init();
-        // }
-        // if (!HWInterface.Ecompass.ConnectionError)
-        // {
-        //     HWInterface.Ecompass.Sleep();
-        // }
+        num = 3;
+        while (num && HWInterface.Ecompass.ConnectionError == true)
+        {
+            num--;
+            HWInterface.Ecompass.ConnectionError = !HWInterface.Ecompass.Init();
+        }
+        if (!HWInterface.Ecompass.ConnectionError)
+        {
+            HWInterface.Ecompass.Sleep();
+        }
 
         num = 3;
         while (num && HWInterface.GY39.ConnectionError == true)
@@ -173,5 +173,6 @@ void user_HardwareInitTask(void *argument)
         }
 
         vTaskDelete(NULL);
+        osDelay(500);
     }
 }

@@ -62,7 +62,7 @@ bool LSM303_WriteOneReg(unsigned char RegAddr, unsigned char dat)
  * @brief LSM303DLH初始化：加速度计、磁力计配置
  * @retval 0成功，非0失败
  */
-unsigned char LSM303DLH_Init(void)
+bool LSM303DLH_Init(void)
 {
     unsigned char temp;
     unsigned char retry = 0;
@@ -82,7 +82,7 @@ unsigned char LSM303DLH_Init(void)
     }
     if (temp != 0x2F)
     {
-        return 1;                                               // 尝试三次仍失败
+        return false;                                               // 尝试三次仍失败
     }
     Delayms(1);
 
@@ -105,9 +105,9 @@ unsigned char LSM303DLH_Init(void)
     }
     if(temp != 0)                                        
     {
-        return 1;                                               // 磁力计初始化失败返回1
+        return false;                                               // 磁力计初始化失败返回false
     }
-    return 0;                                                   // 全部初始化成功返回0
+    return true;                                                   // 全部初始化成功返回true
 }
 
 /**
@@ -124,7 +124,7 @@ bool LSM303DLH_Sleep(void)
  * @brief 唤醒芯片，恢复测量
  * @retval true成功，false失败
  */
-bool LSM303DLH_Wakeup(void)
+bool LSM303DLH_WakeUp(void)
 {
     return LSM303_WriteOneReg(LSM303_MR_REG_M, 0x00)                  // MR_REG_M: 连续转换模式，持续采集磁场数据，XYZ三轴使能
     && LSM303_WriteOneReg(LSM303_CTRL_REG1_A, 0x2F);               // CTRL_REG1: 低功耗模式，10Hz输出，XYZ三轴使能

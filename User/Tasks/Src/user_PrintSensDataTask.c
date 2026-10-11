@@ -20,7 +20,7 @@ void user_PrintSensDataTask(void *argument)
         {
             printf("step: %d\n", HWInterface.IMU.Steps);
         }
-        else if (!HWInterface.MAX30102.ConnectionError && print_count == 5)
+        else if (!HWInterface.MAX30102.ConnectionError && print_count % 3 == 0)
         {
             printf("HR:%ld  SpO2:%ld  HRValid:%d  SpO2Valid:%d\r\n",
                        HWInterface.MAX30102.health_data.heart_rate,
@@ -28,18 +28,18 @@ void user_PrintSensDataTask(void *argument)
                        HWInterface.MAX30102.health_data.heart_rate_valid,
                        HWInterface.MAX30102.health_data.spo2_valid);
         }
-        else if (!HWInterface.Ecompass.ConnectionError && print_count == 7)
+        if (!HWInterface.Ecompass.ConnectionError && print_count % 2 == 0)
         {
-            printf("Ecompass: %d\n", HWInterface.Ecompass.direction);
+            printf("Ecompass direction: %.2f°\n", HWInterface.Ecompass.euler.heading);
         }
         print_count %= 7;
-        // HWInterface.RealTimeClock.GetTimeDate(&HWInterface.RealTimeClock.nowdateTime);
-        // printf("%d年%d月%d日 %02d:%02d:%02d 第%d周 \n", 
-        //     HWInterface.RealTimeClock.nowdateTime.Year + 2000, HWInterface.RealTimeClock.nowdateTime.Month, 
-        //     HWInterface.RealTimeClock.nowdateTime.Date, HWInterface.RealTimeClock.nowdateTime.Hour, 
-        //     HWInterface.RealTimeClock.nowdateTime.Minute, HWInterface.RealTimeClock.nowdateTime.Second,
-        //     HWInterface.RealTimeClock.nowdateTime.WeekDay
-        // );
+        HWInterface.RealTimeClock.GetTimeDate(&HWInterface.RealTimeClock.nowdateTime);
+        printf("%d年%d月%d日 %02d:%02d:%02d 第%d周 \n", 
+            HWInterface.RealTimeClock.nowdateTime.Year + 2000, HWInterface.RealTimeClock.nowdateTime.Month, 
+            HWInterface.RealTimeClock.nowdateTime.Date, HWInterface.RealTimeClock.nowdateTime.Hour, 
+            HWInterface.RealTimeClock.nowdateTime.Minute, HWInterface.RealTimeClock.nowdateTime.Second,
+            HWInterface.RealTimeClock.nowdateTime.WeekDay
+        );
         
         osDelay(1000);
     }

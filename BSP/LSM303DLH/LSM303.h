@@ -61,7 +61,7 @@
 //===================== I2C 从机地址 =====================
 
 //加速度计I2C从地址
-#define LSM303_SlaveAddr_A					0x18	
+#define LSM303_SlaveAddr_A					0x19	
 #define LSM303_SlaveAddr_M					0x1E	//磁力计+温度传感器I2C从地址			
 
 //===================== 函数声明 =====================
@@ -99,7 +99,7 @@ bool LSM303_WriteOneReg(unsigned char RegAddr, unsigned char dat);
  * @brief LSM303DLH初始化：加速度计、磁力计配置
  * @retval 0成功，非0失败
  */
-unsigned char LSM303DLH_Init(void);
+bool LSM303DLH_Init(void);
 
 /**
  * @brief 芯片进入休眠模式，降低功耗
@@ -111,7 +111,7 @@ bool LSM303DLH_Sleep(void);
  * @brief 唤醒芯片，恢复测量
  * @retval true成功，false失败
  */
-bool LSM303DLH_Wakeup(void);
+bool LSM303DLH_WakeUp(void);
 
 /**
  * @brief 读取三轴加速度原始数据
