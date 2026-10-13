@@ -129,16 +129,11 @@ KeyValue_t Key_GetValue(void)
 }
 
 volatile uint8_t key_wakeup_flag = 0;
-volatile uint8_t system_in_sleep = 0;   // 0=正常运行，1=睡眠中
-
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
     if (GPIO_Pin == KEY1_PIN)
     {
-		if (system_in_sleep)
-		{
-			key_wakeup_flag = 1;
-		}
+		key_wakeup_flag = 1;
     }
 }
 

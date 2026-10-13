@@ -1,4 +1,6 @@
 #include "user_RunModeTask.h"
+#include "user_TasksInit.h"
+
 
 #include "main.h"
 #include "cmsis_os2.h"
@@ -13,6 +15,9 @@
 
 /* Idle Time Count */
 uint16_t IdleTimeCount = 0;
+
+/* Idle Timer Handle */
+extern osTimerId_t IdleTimerHandle;
 
 /**
  * @brief 系统进入空闲模式任务
@@ -45,13 +50,9 @@ void IdleEnterTask(void *argument)
             1) == osOK)
         {
             IdleTimeCount = 0;
-            if(last_light != ui_LightSliderValue)
-            {
-                last_light = ui_LightSliderValue;
-                LCD_Set_Light(last_light);
-            }
+            LCD_Set_Light(ui_LightSliderValue);
         }
-
+        
         osDelay(10);
     }
 }
@@ -75,16 +76,12 @@ void StopEnterTask(void *argument)
             0) == osOK)
         {
             /*************************** 系统进入睡眠模式前处理 ***************************/
-            sleep:
-            IdleTimeCount = 0;
-            key_wakeup_flag = 0;
-            system_in_sleep  = 1;
 
             /* 睡眠前处理 */
             printf("Enter Sleep:%d\r\n", IdleTimeCount);
 
             // 关闭 UART
-            //HAL_UART_MspDeInit(&huart1);
+            HAL_UART_MspDeInit(&huart1);
 
             // lcd
             LCD_RES_Clr();
@@ -92,6 +89,11 @@ void StopEnterTask(void *argument)
 
             // 关闭 Touch
             CST816_Sleep();
+
+            // 关闭 Idle Timer
+            osTimerStop(IdleTimerHandle);
+            sleep:
+            IdleTimeCount = 0;
 
             /***********************************************************************************/
 
@@ -110,9 +112,11 @@ void StopEnterTask(void *argument)
 			SET_BIT(SysTick->CTRL, SysTick_CTRL_TICKINT_Msk);
             SystemClock_Config();
             HAL_SYSTICK_Config(SystemCoreClock / (1000U / uwTickFreq));
-            system_in_sleep = 0;
             xTaskResumeAll();
 
+            // 启动 Idle Timer
+            osTimerStart(IdleTimerHandle, 100);  //100ms
+            
             /***********************************************************************************/
 
 			/********************************** 系统唤醒处理 ************************************/
@@ -122,7 +126,7 @@ void StopEnterTask(void *argument)
             {
                 uint8_t horizontal = 0;
                 horizontal = MPU_isHorizontal();
-                if (horizontal && HWInterface.IMU.wrist_is_enabled == WRIST_DOWN)
+                if (horizontal && HWInterface.IMU.wrist_state == WRIST_DOWN)
                 {
                     HWInterface.IMU.wrist_state = WRIST_UP;
                     Wrist_Flag = 1;
@@ -152,7 +156,7 @@ void StopEnterTask(void *argument)
             }
 
             //usart
-			//HAL_UART_MspInit(&huart1);
+			HAL_UART_MspInit(&huart1);
 			//lcd
 			LCD_Init();
             LCD_Open_Light();
@@ -183,6 +187,7 @@ void IdleTimerCallback(void *argument)
     {
         uint8_t Stopstr = 1;
         IdleTimeCount = 0;
+        key_wakeup_flag = 0;
         osMessageQueuePut(Stop_MessageQueue, &Stopstr, NULL, 1);
     }
 }

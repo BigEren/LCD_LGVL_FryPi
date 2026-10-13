@@ -2,6 +2,7 @@
 #include "ui_helpers.h"
 #include "ui_HomePage.h"
 #include "ui_CalendarPage.h"
+#include "ui_ComputerPage.h"
 
 //================ MENU PAGE =================//
 Page_t Page_Menu = {ui_MenuPage_screen_init, ui_MenuPage_screen_deinit, &ui_MenuPage};

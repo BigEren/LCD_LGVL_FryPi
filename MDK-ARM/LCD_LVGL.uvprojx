@@ -1065,6 +1065,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\GUI\screens\Src\ui_CalendarPage.c</FilePath>
             </File>
+            <File>
+              <FileName>ui_ComputerPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_ComputerPage.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1969,6 +1974,11 @@
               <FileName>PageManager.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Func\Src\PageManager.c</FilePath>
+            </File>
+            <File>
+              <FileName>StrCalculate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Func\Src\StrCalculate.c</FilePath>
             </File>
           </Files>
         </Group>
