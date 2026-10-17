@@ -4,6 +4,9 @@
 #include "user_MessageQueue.h"
 #include "PageManager.h"
 #include "ui_MenuPage.h"
+#include "cmsis_os2.h"
+
+extern osThreadId_t ScrRenewTaskHandle;
 
 
 void ScrRenewTask(void *argument)
@@ -14,23 +17,28 @@ void ScrRenewTask(void *argument)
     {
         if (osMessageQueueGet(Key_MessageQueue, &keystr, NULL, 0) == osOK)
         {
+            uint32_t stack_rest = osThreadGetStackSpace(ScrRenewTaskHandle);
+            printf("ScrRenewTask: stack_rest = %d\r\n", stack_rest);
             switch (keystr)
             {
                 case 1:
                     // Handle short press
                     Page_Back();
-                    if (Page_Get_NowPage()->page_obj == &ui_MenuPage)
-                    printf("Short Press\n");
+                    Page_t *nowPage = Page_Get_NowPage();
+                    if (nowPage->page_obj == &ui_MenuPage)
+                    {
+                        
+                    }
                     break;
                 case 2:
                     // Handle long press
                     Page_Back_Bottom();
-                    printf("Long Press\n");
                     break;
                 default:
                     break;
             }
         }
+
         osDelay(10);
     }
 }

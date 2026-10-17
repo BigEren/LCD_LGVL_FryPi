@@ -82,10 +82,9 @@ void vApplicationTickHook( void )
 }
 
 void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName ) {
-    // 在这里打断点，通过 pcTaskName 查看是哪个任务溢出了
-    printf("Stack Overflow in Task: %s\r\n", pcTaskName);
     taskDISABLE_INTERRUPTS();
-    for( ;; );
+    printf("!!! Stack Overflow in Task: %s !!!\r\n", pcTaskName);
+    while(1); // 死循环，方便你调试
 }
 /* USER CODE END 3 */
 

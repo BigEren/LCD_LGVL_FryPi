@@ -64,7 +64,7 @@ void strclear(StrStack_t *stack)
  * @param numIn 数字输入
  * @return uint8_t 0 成功 -1 失败
  */
-uint8_t NumStackPut(NumStack_t *stack, float numIn)
+uint8_t NumStackPut(NumStack_t *stack, double numIn)
 {
     if(stack->Top_Point >= CAL_DEPTH - 1)
     {
@@ -289,7 +289,7 @@ uint8_t NumSymSeparate(char *strIn, uint8_t strLen, NumStack_t *NumStack, SymSta
                 return 3;
             }
             temp.datatype = NUMBER_TYPE;
-            temp.number = (strIn[i] - '0');
+            temp.number = (double)(strIn[i] - '0');
             temp.symbol = NULL;
             
             if (temp_pre.datatype == NUMBER_TYPE)
@@ -321,7 +321,7 @@ uint8_t NumSymSeparate(char *strIn, uint8_t strLen, NumStack_t *NumStack, SymSta
             }
             else
             {
-                NumStackPut(NumStack, temp_pre.number);
+                NumStackPut(NumStack, temp.number);
             }
             temp_pre = temp;
         }
@@ -387,7 +387,7 @@ uint8_t StrCalculate(char *strIn, NumStack_t *NumStack, SymStack_t *SymStack)
     return 0;
 }
 
-uint8_t isIntNumber(float num)
+uint8_t isIntNumber(double num)
 {
     if (num == (int)num)
     {

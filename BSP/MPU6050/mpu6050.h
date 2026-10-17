@@ -462,7 +462,7 @@ bool MPU_Get_Accelerometer(
  * roll ：横滚角
  * pitch：俯仰角
  */
-void MPU_Get_Angles(
+bool MPU_Get_Angles(
     float *roll,
     float *pitch
 );

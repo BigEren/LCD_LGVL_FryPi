@@ -65,6 +65,7 @@ void IdleEnterTask(void *argument)
 void StopEnterTask(void *argument)
 {
     uint8_t Stopstr = 0;
+    uint8_t HomeUpdataStr = 0;
     uint8_t Wrist_Flag = 0;
     for (;;)
     {
@@ -164,6 +165,7 @@ void StopEnterTask(void *argument)
 			//touch
 			CST816_Wakeup();
             printf("System Wakeup\r\n");
+            osMessageQueuePut(HomeUpdata_MessageQueue, &HomeUpdataStr, 0, 1);
 
         }
         osDelay(100);

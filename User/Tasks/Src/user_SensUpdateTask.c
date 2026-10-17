@@ -3,6 +3,8 @@
 #include "user_MessageQueue.h"
 #include "mpu6050.h"
 #include "LSM303.h"
+#include "PageManager.h"
+#include "ui_helpers.h"
 
 #include "cmsis_os2.h"
 
@@ -26,10 +28,27 @@ void MPUCheckTask(void *argument)
             }
             else
             {
+                Page_t *current_page = Page_Get_NowPage();
+                if (current_page->page_obj == NULL)
+                {
+                    goto delay;
+                }
+                if (WRIST_UP == HWInterface.IMU.wrist_state)
+                {
+                    HWInterface.IMU.wrist_state = WRIST_DOWN;
+                    if (current_page->page_obj == &ui_HomePage ||
+                        current_page->page_obj == &ui_MenuPage)
+                    {
+                        // 处于这几个页面放腕sleep
+                        uint8_t Stopstr;
+                        //osMessageQueuePut(Stop_MessageQueue, &Stopstr, 0, 1);
+                    }
+                }
                 HWInterface.IMU.wrist_state = WRIST_DOWN;
             }
         }
-        osDelay(50);
+        delay:
+        osDelay(300);
     }
 }
 
@@ -52,130 +71,83 @@ void HealthDataUpdateTask(void *argument)
     }
 }
 
-void AHT20DataUpdateTask(void *argument)
+void SensorDataUpdateTask(void *argument)
 {
+    uint8_t IdleBreakstr = 0;
     for (;;)
     {
-        if (false == HWInterface.AHT20.ConnectionError)
+        uint8_t HomeUpdateStr;
+        // 主页面更新
+        if (osMessageQueueGet(HomeUpdata_MessageQueue, &HomeUpdateStr, NULL, 0) == osOK)
         {
-            if (false == HWInterface.AHT20.GetData())
+            // //bat
+			// uint8_t value_strbuf[5];
+
+			// HWInterface.Power.power_remain = HWInterface.Power.BatCalculate();
+			// if(HWInterface.Power.power_remain>0 && HWInterface.Power.power_remain<=100)
+			// {}
+			// else
+			// {HWInterface.Power.power_remain = 0;}
+
+            // steps
+            if (false == HWInterface.IMU.ConnectionError)
             {
-                printf("AHT20DataUpdateTask: GetData failed\n");
+                HWInterface.IMU.Steps = HWInterface.IMU.GetSteps();
+            }
+
+            // temperature humidity
+            if (false == HWInterface.GY39.ConnectionError)
+            {
+                HWInterface.GY39.GetData();
+            }
+            //send data save message queue
+			// uint8_t Datastr = 3;
+			// osMessageQueuePut(DataSave_MessageQueue, &Datastr, 0, 1);
+        }
+        // 当前页面更新
+        Page_t *current_page = Page_Get_NowPage();
+        if (current_page->page_obj == NULL)
+        {
+            goto delay;
+        }
+
+        // 环境温度湿度
+        if (current_page->page_obj == &ui_EnvPage)
+        {
+            if (false == HWInterface.GY39.ConnectionError)
+            {
+                HWInterface.GY39.GetData();                 // 获取环境温度湿度
             }
         }
-        osDelay(1000);
-    }
-}
-
-void StepsDataUpdateTask(void *argument)
-{
-    for (;;)
-    {
-        if (false == HWInterface.IMU.ConnectionError)
+        // 电子罗盘
+        if (current_page->page_obj == &ui_CompassPage)
         {
-           HWInterface.IMU.GetSteps();
-        }
-        osDelay(500);
-    }
-}
+            osMessageQueuePut(IdleBreak_MessageQueue, &IdleBreakstr, 0, 1);
 
-void EcompassDataUpdateTask(void *argument)
-{
-    if (false == HWInterface.Ecompass.ConnectionError)
-    {
-        HWInterface.Ecompass.WakeUp();
-    }
-    for (;;)
-    {
-        // if (false == HWInterface.Ecompass.ConnectionError)
-        // {
-        //     /* 1. 唤醒 BNO055（从挂起模式回到 NDOF 模式） */
-        //     if (false == HWInterface.Ecompass.WakeUp())
-        //     {
-        //         printf("EcompassDataUpdateTask: WakeUp failed\n");
-        //         goto delay;
-        //     }
+            HWInterface.Ecompass.WakeUp();
 
-        //     /* 2. 检查校准状态（磁力计必须是 3 才准） */
-        //     if (BNO055_ReadCalibStat(&HWInterface.Ecompass.calib))
-        //     {
-        //         if (HWInterface.Ecompass.calib.mag < 3)
-        //         {
-        //             printf("Ecompass not calibrated: sys=%d gyro=%d accel=%d mag=%d\n",
-        //                    HWInterface.Ecompass.calib.sys, 
-        //                    HWInterface.Ecompass.calib.gyro, 
-        //                    HWInterface.Ecompass.calib.accel, 
-        //                    HWInterface.Ecompass.calib.mag);
-        //             /* 可选：在 UI 上提示用户做"8"字校准 */
-        //         }
-        //     }
-        //     else
-        //     {
-        //         printf("EcompassDataUpdateTask: ReadCalibStat failed\n");
-        //         goto delay;
-        //     }
-
-        //     /* 3. 读取欧拉角（heading 就是方位角） */
-        //     if (BNO055_ReadEuler(&HWInterface.Ecompass.euler))
-        //     {
-        //         /* 4. 应用安装偏移 + 磁偏角 */
-        //         HWInterface.Ecompass.euler.heading += COMPASS_HEADING_OFFSET + MAGNETIC_DECLINATION;
-
-        //         /* 归一化到 0~360 */
-        //         while (HWInterface.Ecompass.euler.heading < 0)
-        //         {
-        //             HWInterface.Ecompass.euler.heading += 360.0f;
-        //         }
-        //         while (HWInterface.Ecompass.euler.heading >= 360.0f)
-        //         {
-        //             HWInterface.Ecompass.euler.heading -= 360.0f;
-        //         }
-
-        //         /* 5. 低通滤波*/
-        //         static float heading_filtered = 0.0f;
-        //         float diff = HWInterface.Ecompass.euler.heading - heading_filtered;
-        //         if (diff > 180.0f) diff -= 360.0f;
-        //         if (diff < -180.0f) diff += 360.0f;
-        //         heading_filtered += diff * 0.2f; // 低通滤波系数 0.2
-        //         if (heading_filtered >= 360.0f) heading_filtered -= 360.0f;
-        //         if (heading_filtered < 0.0f) heading_filtered += 360.0f;
-
-        //         HWInterface.Ecompass.euler.heading = heading_filtered;
-        //     }
-        // }
-
-        if (false == HWInterface.Ecompass.ConnectionError)
-        {
-            int16_t Xa, Ya, Za, Xm, Ym, Zm;
-            LSM303_ReadAcceleration(&Xa, &Ya, &Za);
-            LSM303_ReadMagnetic(&Xm, &Ym, &Zm);
-            float temp = Azimuth_Calculate(Xa, Ya, Za, Xm, Ym, Zm) + COMPASS_HEADING_OFFSET;
-            if (temp < 0)
+            if (false == HWInterface.Ecompass.ConnectionError)
             {
-                temp += 360.0f;
+                int16_t Xa, Ya, Za, Xm, Ym, Zm;
+                LSM303_ReadAcceleration(&Xa, &Ya, &Za);
+                LSM303_ReadMagnetic(&Xm, &Ym, &Zm);
+                float temp = Azimuth_Calculate(Xa, Ya, Za, Xm, Ym, Zm) + COMPASS_HEADING_OFFSET;
+                if (temp < 0)
+                {
+                    temp += 360.0f;
+                }
+                if (temp >=0 && temp <= 360)
+                {
+                    HWInterface.Ecompass.direction = temp;
+                }
             }
-            if (temp >=0 && temp <= 360)
+            if (false == HWInterface.GY39.ConnectionError)
             {
-                HWInterface.Ecompass.euler.heading = temp;
+                HWInterface.GY39.GetData();                 // 获取海拔
             }
         }
         delay:
         osDelay(500);
-    }
-}
-
-void GY39DataUpdateTask(void *argument)
-{
-    for (;;)
-    {
-        if (false == HWInterface.GY39.ConnectionError)
-        {
-            if (false == HWInterface.GY39.GetData())
-            {
-                printf("GY39DataUpdateTask: GetData failed\n");
-            }
-        }
-        osDelay(1000);
     }
 }
 

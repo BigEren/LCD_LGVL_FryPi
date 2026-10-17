@@ -226,8 +226,7 @@ void ui_event_MenuCPPanel(lv_event_t * e)
         #if COMPASS_PAGE_EN
 			Page_Load(&Page_Compass);
         #else
-
-
+        
         #endif
     }
 }
@@ -807,5 +806,5 @@ void ui_MenuPage_screen_init(void)
  */
 void ui_MenuPage_screen_deinit(void)
 {
-    //lv_obj_del(ui_MenuPage);
+    
 }

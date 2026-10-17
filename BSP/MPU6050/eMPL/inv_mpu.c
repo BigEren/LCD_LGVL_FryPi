@@ -3081,9 +3081,10 @@ u8 mpu_dmp_init(void)
          */
         res =
         dmp_enable_feature(
-            DMP_FEATURE_6X_LP_QUAT |
-            DMP_FEATURE_SEND_RAW_ACCEL |
-            DMP_FEATURE_PEDOMETER
+            DMP_FEATURE_6X_LP_QUAT      |  // 必须加上：输出四元数
+            DMP_FEATURE_SEND_RAW_ACCEL  |  // 输出原始加速度
+            DMP_FEATURE_SEND_CAL_GYRO   |  // 建议加上：输出校准后的陀螺仪
+            DMP_FEATURE_PEDOMETER          // 计步器
         );
 
         if(res)

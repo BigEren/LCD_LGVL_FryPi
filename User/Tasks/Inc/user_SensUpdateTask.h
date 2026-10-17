@@ -3,10 +3,7 @@
 
 void MPUCheckTask(void *argument);
 void HealthDataUpdateTask(void *argument);
-void AHT20DataUpdateTask(void *argument);
-void StepsDataUpdateTask(void *argument);
-void EcompassDataUpdateTask(void *argument);
-void GY39DataUpdateTask(void *argument);
+void SensorDataUpdateTask(void *argument);
 
 
 

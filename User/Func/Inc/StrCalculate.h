@@ -6,7 +6,7 @@
 #define NUMBER_TYPE 0
 #define SYMBOL_TYPE 1
 #define POINT_TYPE 3
-#define CAL_DEPTH 16
+#define CAL_DEPTH 5
 
 /**
  * @brief 字符串栈
@@ -33,7 +33,7 @@ void strclear(StrStack_t *stack);
 typedef struct
 {
     char datatype;          // 数据类型
-    float number;           // 数字
+    double number;           // 数字
     char symbol;            // 符号
 
 } caldata_t;
@@ -45,7 +45,7 @@ typedef struct
  */
 typedef struct
 {
-    float numque[CAL_DEPTH];
+    double numque[CAL_DEPTH];
     uint8_t Top_Point;
 
 } NumStack_t;
@@ -66,7 +66,7 @@ void NumStackClear(NumStack_t* stack);
 void SymStackClear(SymStack_t* stack);
 uint8_t NumSymSeparate(char * strIn, uint8_t strlen, NumStack_t * NumStack, SymStack_t * SymStack);
 uint8_t StrCalculate(char *strIn, NumStack_t *NumStack, SymStack_t *SymStack);
-uint8_t isIntNumber(float num);
+uint8_t isIntNumber(double num);
 
 
 

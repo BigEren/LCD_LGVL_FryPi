@@ -201,8 +201,13 @@ typedef struct
 typedef struct
 {
     bool ConnectionError;          /**< 连接错误标志 */
+    #if HW_USE_BNO055
     BNO055_Euler_t euler;          /**< 欧拉角 */
     BNO055_CalibStat_t calib;      /**< 校准状态 */
+    #endif
+    #if HW_USE_LSM303DLH
+    uint16_t direction;              /**< 方向 */
+    #endif  
 
     bool (*Init)(void);            /**< 初始化电子罗盘 */
     bool (*WakeUp)(void);          /**< 唤醒 */

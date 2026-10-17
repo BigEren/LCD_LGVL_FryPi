@@ -133,19 +133,12 @@ void ui_CompageBtnM_event_cb(lv_event_t *e)
             }
             else
             {
-                char strout[10];
-                if (isIntNumber(NumStack.numque[NumStack.Top_Point - 1]))
-                {
-                    sprintf(strout, "%.0f", NumStack.numque[NumStack.Top_Point - 1]);
-                }
-                else
-                {
-                    sprintf(strout, "%.4f", NumStack.numque[NumStack.Top_Point - 1]);
-                }
+                char strout[20];
+                snprintf(strout, sizeof(strout), "%.6g", NumStack.numque[NumStack.Top_Point-1]);
                 lv_textarea_add_text(ui_CompageTextarea, strout);
             }
             strclear(&CalStr);
-            lv_obj_clear_flag(ui_CompageTextarea, LV_OBJ_FLAG_CLICKABLE);
+            lv_obj_clear_flag(ui_CompageBtnM, LV_OBJ_FLAG_CLICKABLE);
         }
     }
 }

@@ -451,8 +451,7 @@ HW_Interface_t HWInterface = {
     },
     .Ecompass = {
         .ConnectionError = true,
-        .euler = {0},
-        .calib = {0},
+        .direction = 45,
         .Init = HW_Ecompass_Init,
         .WakeUp = HW_Ecompass_WakeUp,
         .Sleep = HW_Ecompass_Sleep

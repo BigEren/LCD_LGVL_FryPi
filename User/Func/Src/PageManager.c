@@ -93,31 +93,23 @@ Page_t* Page_Get_NowPage(void)
 void Page_Back(void)
 {
     if (PageStack_isEmpty(&PageStack))
-    {
         return;
-    }
 
-    // 弹出当前页面栈
     PageStack_Pop(&PageStack);
 
     if (PageStack_isEmpty(&PageStack))
     {
-        // 栈空，home menu入栈并切换到MenuPage
         PageStack_Push(&PageStack, &Page_Home);
         PageStack_Push(&PageStack, &Page_Menu);
-        Page_t* nowPage = PageStack_GetTopPage(&PageStack);
-        nowPage->page_init();
-        // 切换动画
-        lv_scr_load_anim(*nowPage->page_obj, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 100, 0, true);
     }
-    else
-    {
-        // 栈非空，切换到栈顶页面
-        Page_t* nowPage = PageStack_GetTopPage(&PageStack);
-        nowPage->page_init();
-        // 切换动画
-        lv_scr_load_anim(*nowPage->page_obj, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 100, 0, true);
-    }
+
+    Page_t *nowPage = PageStack_GetTopPage(&PageStack);
+
+    nowPage->page_init();
+
+    lv_scr_load_anim(*nowPage->page_obj,
+                     LV_SCR_LOAD_ANIM_MOVE_RIGHT,
+                     100, 0, true);
 }
 
 /** @brief 返回到最底部页面

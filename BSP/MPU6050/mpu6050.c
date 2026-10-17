@@ -500,7 +500,7 @@ bool MPU_Get_Gyroscope(short *gx, short *gy, short *gz)
  * @param ax 加速度 X 轴数据
  * @param ay 加速度 Y 轴数据
  * @param az 加速度 Z 轴数据
- * @retval 状态
+ * @retval 状态 成功返回 true，失败返回 false
  */
 /********************************************************************/
 bool MPU_Get_Accelerometer(short *ax, short *ay, short *az)
@@ -529,12 +529,16 @@ bool MPU_Get_Accelerometer(short *ax, short *ay, short *az)
  * @param pitch 角度
  */
 /********************************************************************/
-void MPU_Get_Angles(float *roll, float *pitch)
+bool MPU_Get_Angles(float *roll, float *pitch)
 {
     short ax, ay, az;
-    MPU_Get_Accelerometer(&ax, &ay, &az);
+    if (MPU_Get_Accelerometer(&ax, &ay, &az) == false)
+    {
+        return false;
+    }
     *roll = atanf ((float)ay / (float)az);              // 计算 roll 角度
     *pitch = -atanf (ax / sqrtf(ay * ay + az * az));    // 计算 pitch 角度
+    return true;
 }
 
 // 从 DMP 读取四元数并转为欧拉角（度）
@@ -546,8 +550,10 @@ bool MPU_DMP_Get_Angles(MPU_Attitude_t *attitude)
     unsigned long timestamp;
 
     // 从 DMP FIFO 中读取数据
-    if (dmp_read_fifo(gyro, accel, quat, &timestamp, &sensors, &more) != 0) {
-        return false;
+    uint8_t count = 0;
+    while (dmp_read_fifo(gyro, accel, quat, &timestamp, &sensors, &more) != 0 && count < 20)
+    {
+        count++;
     }
 
     // 确保四元数已更新
@@ -575,17 +581,22 @@ bool MPU_DMP_Get_Angles(MPU_Attitude_t *attitude)
 
 bool MPU_isHorizontal(void)
 {
-    MPU_Attitude_t att;
-    
-    // 1. 获取 DMP 解算出的角度
-    if (!MPU_DMP_Get_Angles(&att)) {
-        // 读取失败时，为了安全，默认返回不平
-        return false; 
+    // float roll, pitch;
+	// if (MPU_Get_Angles(&roll, &pitch) == false)
+    // {
+	// 	return false;
+	// }
+	// if(roll <= 0.50 && roll >= -0.50 && pitch <= 0.50 && pitch >= -0.50)
+	// {
+    //     return true;
+    // }
+	// return false;
+    MPU_Attitude_t attitude;
+    if (MPU_DMP_Get_Angles(&attitude) == false)
+    {
+        return false;
     }
-
-    // 2. 判定（单位：度）
-    if (att.roll <= 2.0f && att.roll >= -2.0f && 
-        att.pitch <= 2.0f && att.pitch >= -2.0f) 
+    if (attitude.roll <= 2.0 && attitude.roll >= -2.0 && attitude.pitch <= 2.0 && attitude.pitch >= -2.0)
     {
         return true;
     }

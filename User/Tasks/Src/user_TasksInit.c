@@ -86,14 +86,6 @@ const osThreadAttr_t MPUCheckTask_attributes = {
     .priority = (osPriority_t)osPriorityLow1,
 };
 
-// AHT20DataUpdateTask Init
-// osThreadId_t AHT20DataUpdateTaskHandle = NULL;
-// const osThreadAttr_t AHT20DataUpdateTask_attributes = {
-//     .name = "AHT20DataUpdateTask",
-//     .stack_size = 128 * 10,
-//     .priority = (osPriority_t)osPriorityLow1,
-// };
-
 // HealthDataUpdateTask Init
 osThreadId_t HealthDataUpdateTaskHandle = NULL;
 const osThreadAttr_t HealthDataUpdateTask_attributes = {
@@ -102,13 +94,6 @@ const osThreadAttr_t HealthDataUpdateTask_attributes = {
     .priority = (osPriority_t)osPriorityLow1,
 };
 
-// StepsDataUpdateTask Init
-osThreadId_t StepsDataUpdateTaskHandle = NULL;
-const osThreadAttr_t StepsDataUpdateTask_attributes = {
-    .name = "StepsDataUpdateTask",
-    .stack_size = 128 * 10,
-    .priority = (osPriority_t)osPriorityLow1,
-};
 
 // StopEnterTask Init
 osThreadId_t StopEnterTaskHandle = NULL;
@@ -118,35 +103,12 @@ const osThreadAttr_t StopEnterTask_attributes = {
     .priority = (osPriority_t)osPriorityLow3,
 };
 
-// PrintSensDataTask Init
-osThreadId_t PrintSensDataTaskHandle = NULL;
-const osThreadAttr_t PrintSensDataTask_attributes = {
-    .name = "PrintSensDataTask",
-    .stack_size = 128 * 5,
-    .priority = (osPriority_t)osPriorityLow1,
-};
 
 // IdleEnterTask Init
 osThreadId_t IdleEnterTaskHandle = NULL;
 const osThreadAttr_t IdleEnterTask_attributes = {
     .name = "IdleEnterTask",
     .stack_size = 128 * 3,
-    .priority = (osPriority_t)osPriorityLow1,
-};
-
-// EcompassDataUpdateTask Init
-osThreadId_t EcompassDataUpdateTaskHandle = NULL;
-const osThreadAttr_t EcompassDataUpdateTask_attributes = {
-    .name = "EcompassDataUpdateTask",
-    .stack_size = 128 * 8,
-    .priority = (osPriority_t)osPriorityLow1,
-};
-
-// GY39DataUpdateTask Init  
-osThreadId_t GY39DataUpdateTaskHandle = NULL;
-const osThreadAttr_t GY39DataUpdateTask_attributes = {
-    .name = "GY39DataUpdateTask",
-    .stack_size = 128 * 5,
     .priority = (osPriority_t)osPriorityLow1,
 };
 
@@ -162,7 +124,15 @@ const osThreadAttr_t KeyTask_attributes = {
 osThreadId_t ScrRenewTaskHandle = NULL;
 const osThreadAttr_t ScrRenewTask_attributes = {
     .name = "ScrRenewTask",
-    .stack_size = 128 * 5,
+    .stack_size = 128 * 10,
+    .priority = (osPriority_t)osPriorityLow1,
+};
+
+// SensorDataUpdateTask Init
+osThreadId_t SensorDataUpdateTaskHandle = NULL;
+const osThreadAttr_t SensorDataUpdateTask_attributes = {
+    .name = "SensorDataUpdateTask",
+    .stack_size = 128 * 10,
     .priority = (osPriority_t)osPriorityLow1,
 };
 
@@ -191,15 +161,11 @@ void user_Tasks_Init(void)
 	/* add threads, ... */
     user_HardwareInitTaskHandle = osThreadNew(user_HardwareInitTask, NULL, &user_HardwareInitTask_attributes);
     user_LVGLTaskHandle = osThreadNew(user_LVGLTask, NULL, &user_LVGLTask_attributes);
-    StepsDataUpdateTaskHandle = osThreadNew(StepsDataUpdateTask, NULL, &StepsDataUpdateTask_attributes);
     HealthDataUpdateTaskHandle = osThreadNew(HealthDataUpdateTask, NULL, &HealthDataUpdateTask_attributes);
-    // AHT20DataUpdateTaskHandle = osThreadNew(AHT20DataUpdateTask, NULL, &AHT20DataUpdateTask_attributes);
     MPUCheckTaskHandle = osThreadNew(MPUCheckTask, NULL, &MPUCheckTask_attributes);
     StopEnterTaskHandle = osThreadNew(StopEnterTask, NULL, &StopEnterTask_attributes);
-    IdleEnterTaskHandle = osThreadNew(IdleEnterTask, NULL, &IdleEnterTask_attributes);
-    PrintSensDataTaskHandle = osThreadNew(user_PrintSensDataTask, NULL, &PrintSensDataTask_attributes);
-    EcompassDataUpdateTaskHandle = osThreadNew(EcompassDataUpdateTask, NULL, &EcompassDataUpdateTask_attributes);   
-    GY39DataUpdateTaskHandle = osThreadNew(GY39DataUpdateTask, NULL, &GY39DataUpdateTask_attributes);
+    IdleEnterTaskHandle = osThreadNew(IdleEnterTask, NULL, &IdleEnterTask_attributes);  
+    SensorDataUpdateTaskHandle = osThreadNew(SensorDataUpdateTask, NULL, &SensorDataUpdateTask_attributes);
     KeyTaskHandle = osThreadNew(KeyTask, NULL, &KeyTask_attributes);
     ScrRenewTaskHandle = osThreadNew(ScrRenewTask, NULL, &ScrRenewTask_attributes);
 

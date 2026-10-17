@@ -16,15 +16,22 @@ void KeyTask(void* argument)
             case KEY_NONE:
                 keystr = 0;
                 break;
+
             case KEY_SHORT_PRESS:
                 keystr = 1;
-                osMessageQueuePut(Key_MessageQueue, &keystr, 0, 1);
-                osMessageQueuePut(IdleBreak_MessageQueue, &IdleBreadstr, 0, 1);
+                osStatus_t ret = osMessageQueuePut(Key_MessageQueue, &keystr, 0, 0);
+
+                printf("Key queue ret = %d\r\n", (int)ret);
+                
+                osMessageQueuePut(IdleBreak_MessageQueue, &IdleBreadstr, 0, 0);
                 break;
+
             case KEY_LONG_PRESS:
                 keystr = 2;
-                osMessageQueuePut(Key_MessageQueue, &keystr, 0, 1);
+                ret = osMessageQueuePut(
+                Key_MessageQueue, &keystr, 0, 0);
                 break;
+
             default:
                 break;
         }

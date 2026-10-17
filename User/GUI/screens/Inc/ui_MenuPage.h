@@ -15,8 +15,8 @@ extern "C" {
 #define SPROTS_PAGE_EN			0
 #define HR_PAGE_EN				0
 #define O2_PAGE_EN				0
-#define ENVIRONMENT_PAGE_EN	    0
-#define COMPASS_PAGE_EN			0
+#define ENVIRONMENT_PAGE_EN		1
+#define COMPASS_PAGE_EN			1
 #define GAME_PAGE_EN            0
 #define SET_PAGE_EN				0
 #define ABOUT_PAGE_EN			0

@@ -931,11 +931,6 @@
               <FilePath>..\User\Tasks\Src\user_MessageQueue.c</FilePath>
             </File>
             <File>
-              <FileName>user_PrintSensDataTask.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Tasks\Src\user_PrintSensDataTask.c</FilePath>
-            </File>
-            <File>
               <FileName>user_RunModeTask.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Tasks\Src\user_RunModeTask.c</FilePath>
@@ -1069,6 +1064,16 @@
               <FileName>ui_ComputerPage.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\GUI\screens\Src\ui_ComputerPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_CompassPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_CompassPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_EnvPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_EnvPage.c</FilePath>
             </File>
           </Files>
         </Group>

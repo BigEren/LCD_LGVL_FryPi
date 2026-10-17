@@ -8,6 +8,14 @@
 
 #include "ui.h"
 
+// 所有页面头文件
+#include "ui_ComputerPage.h"
+#include "ui_HomePage.h"
+#include "ui_CalendarPage.h"
+#include "ui_MenuPage.h"
+#include "ui_EnvPage.h"
+#include "ui_CompassPage.h"
+
 #define _UI_TEMPORARY_STRING_BUFFER_SIZE 32
 #define _UI_BAR_PROPERTY_VALUE 0
 #define _UI_BAR_PROPERTY_VALUE_WITH_ANIM 1
