@@ -302,10 +302,10 @@ static bool HW_MAX30102_ReadHealthData(void)
  * @return false 启动失败
  */
 /*******************************************************************************/
-static bool HW_MAX30102_Start(void)
+static bool HW_MAX30102_WakeUp(void)
 {
     #if HW_USE_MAX30102
-        return MAX30102_Start();
+        return MAX30102_WakeUp();
     #endif
     return false;
 }
@@ -440,7 +440,7 @@ HW_Interface_t HWInterface = {
         .Init = HW_MAX30102_Init,
         .GetI_RData = HW_MAX30102_GetI_RData,
         .ReadHealthData = HW_MAX30102_ReadHealthData,
-        .Start = HW_MAX30102_Start,
+        .WakeUp = HW_MAX30102_WakeUp,
         .Sleep = HW_MAX30102_Sleep
     },
     .GY39 = {

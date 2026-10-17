@@ -37,7 +37,7 @@ bool HealthSensor_Read(HealthData_t *result)
         }
         red_buffer[i] = HWInterface.MAX30102.data.red;
         ir_buffer[i] = HWInterface.MAX30102.data.ir;
-        delay_ms(HEALTH_SAMPLE_PERIOD);
+        delay_ms(1);
     }
 
     return HealthAlgorithm_Process(

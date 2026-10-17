@@ -13,8 +13,8 @@ extern "C" {
 #define TIMER_PAGE_EN			0
 #define CARD_PAGE_EN            0
 #define SPROTS_PAGE_EN			0
-#define HR_PAGE_EN				0
-#define O2_PAGE_EN				0
+#define HR_PAGE_EN				1
+#define O2_PAGE_EN				1
 #define ENVIRONMENT_PAGE_EN		1
 #define COMPASS_PAGE_EN			1
 #define GAME_PAGE_EN            0

@@ -1075,6 +1075,16 @@
               <FileType>1</FileType>
               <FilePath>..\User\GUI\screens\Src\ui_EnvPage.c</FilePath>
             </File>
+            <File>
+              <FileName>ui_HRPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_HRPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_SPO2Page.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_SPO2Page.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

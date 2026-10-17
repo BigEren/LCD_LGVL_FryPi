@@ -60,7 +60,7 @@ bool MAX30102_ReadID(uint8_t *id);
 bool MAX30102_ReadReg(uint8_t reg, uint8_t *value);
 bool MAX30102_WriteReg(uint8_t reg, uint8_t value);
 bool MAX30102_Reset(void);
-bool MAX30102_Start(void);
+bool MAX30102_WakeUp(void);
 bool MAX30102_Sleep(void);
 
 

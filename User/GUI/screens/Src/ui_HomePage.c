@@ -69,6 +69,8 @@ uint8_t ui_HomePageNFCEN = 0;
 int8_t ui_HomePageTempValue = 25;
 int8_t ui_HomePageHumiValue = 67;
 
+extern volatile uint32_t HRPage_HeartRate;
+
 //========================= Page Manager ========================//
 /**
  * @brief       Home Page
@@ -562,7 +564,14 @@ void ui_HomePage_screen_init(void)
     lv_obj_set_x(ui_HRNumLabel, 70);
     lv_obj_set_y(ui_HRNumLabel, 125);
     lv_obj_set_align(ui_HRNumLabel, LV_ALIGN_CENTER);
-    sprintf(value_strbuf,"%d", HWInterface.MAX30102.health_data.heart_rate);
+    if (HRPage_HeartRate != 0)
+    {
+        snprintf(value_strbuf, sizeof(value_strbuf), "%d", HRPage_HeartRate);
+    }
+    else
+    {
+        snprintf(value_strbuf, sizeof(value_strbuf), "N/A");
+    }
     lv_label_set_text(ui_HRNumLabel, value_strbuf);
 
 
@@ -747,6 +756,8 @@ void ui_PowerPage_screen_init(void)
 
     lv_obj_set_style_bg_color(ui_PowerSlider, lv_color_hex(0x800000), LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_PowerSlider, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_bg_opa(ui_PowerSlider, 0, LV_PART_KNOB);
 
     ui_PowerDownLabel = lv_label_create(ui_PowerSlider);
     lv_obj_set_width(ui_PowerDownLabel, LV_SIZE_CONTENT);   /// 1

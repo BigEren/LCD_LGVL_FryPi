@@ -3,6 +3,11 @@
 #include "ui_HomePage.h"
 #include "ui_CalendarPage.h"
 #include "ui_ComputerPage.h"
+#include "ui_HRPage.h"
+#include "HWDataAccess.h"
+#include "ui_SPO2Page.h"
+
+
 
 //================ MENU PAGE =================//
 Page_t Page_Menu = {ui_MenuPage_screen_init, ui_MenuPage_screen_deinit, &ui_MenuPage};
@@ -170,6 +175,7 @@ void ui_event_MenuSprPanel(lv_event_t * e)
     }
 }
 
+extern bool HRneed_wakeup;
 void ui_event_MenuHRPanel(lv_event_t * e)
 {
 	lv_event_code_t event_code = lv_event_get_code(e);
@@ -179,7 +185,7 @@ void ui_event_MenuHRPanel(lv_event_t * e)
         #if HR_PAGE_EN
 					Page_Load(&Page_HR);
                     //send the sensor wakeup message
-
+                    HWInterface.MAX30102.WakeUp();
         #else
 
 
@@ -195,6 +201,7 @@ void ui_event_MenuO2Panel(lv_event_t * e)
     {
         #if O2_PAGE_EN
             Page_Load(&Page_SPO2);
+            HWInterface.MAX30102.WakeUp();
         #else
 
 

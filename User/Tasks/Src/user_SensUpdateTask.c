@@ -5,11 +5,12 @@
 #include "LSM303.h"
 #include "PageManager.h"
 #include "ui_helpers.h"
+#include "ui_HRPage.h"
+#include "ui_SPO2Page.h"
 
 #include "cmsis_os2.h"
 
 uint8_t IdleBreakstr=0;
-
 
 /**
  * @brief 手表水平状态检查任务
@@ -54,19 +55,21 @@ void MPUCheckTask(void *argument)
 
 void HealthDataUpdateTask(void *argument)
 {
-    if (false == HWInterface.MAX30102.ConnectionError)
-    {
-        HWInterface.MAX30102.Start();
-    }
     for (;;)
     {
-        if (false == HWInterface.MAX30102.ConnectionError)
+        Page_t *current_page = Page_Get_NowPage();
+        if (current_page->page_obj == NULL)
+        {
+            goto delay;
+        }
+        if (false == HWInterface.MAX30102.ConnectionError && (current_page->page_obj == &ui_HRPage || current_page->page_obj == &ui_SPO2Page))
         {
             if (false == HWInterface.MAX30102.ReadHealthData())
             {
                 printf("HealthDataUpdateTask: ReadHealthData failed\n");
             }
         }
+        delay:
         osDelay(3000);
     }
 }

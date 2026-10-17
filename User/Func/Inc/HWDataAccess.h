@@ -151,7 +151,7 @@ typedef struct
     bool (*GetI_RData)(void);      /**< 获取红外原始数据 */
     bool (*ReadHealthData)(void);  /**< 读取健康数据 */
     void (*Sleep)(void);           /**< 进入休眠 */
-    void (*Start)(void);           /**< 启动测量 */
+    void (*WakeUp)(void);           /**< 启动测量 */
 } HW_MAX30102_Interface_t;
 
 /*==================== MPU6050 ====================*/
