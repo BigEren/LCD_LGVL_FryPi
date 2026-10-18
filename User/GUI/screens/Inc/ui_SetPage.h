@@ -1,5 +1,5 @@
-#ifndef _UI_SETPAGE_H
-#define _UI_SETPAGE_H
+#ifndef __UI_SETPAGE_H__
+#define __UI_SETPAGE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,4 +40,4 @@ void ui_SetPage_screen_deinit(void);
 } /*extern "C"*/
 #endif
 
-#endif
+#endif /*__UI_SETPAGE_H__*/

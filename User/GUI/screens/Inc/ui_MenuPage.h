@@ -10,7 +10,7 @@ extern "C" {
 
 #define CALENDAR_PAGE_EN		1
 #define COMPUTER_PAGE_EN		1
-#define TIMER_PAGE_EN			0
+#define TIMER_PAGE_EN			1
 #define CARD_PAGE_EN            0
 #define SPROTS_PAGE_EN			0
 #define HR_PAGE_EN				1

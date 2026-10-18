@@ -1,6 +1,6 @@
 
-#ifndef UI_HOMEPAGE_H
-#define UI_HOMEPAGE_H
+#ifndef __UI_HOMEPAGE_H__
+#define __UI_HOMEPAGE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -76,5 +76,5 @@ extern void ui_PowerPage_screen_deinit(void);
 } /*extern "C"*/
 #endif
 
-#endif
+#endif /*__UI_HOMEPAGE_H__*/
 

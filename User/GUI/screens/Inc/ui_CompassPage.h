@@ -1,5 +1,5 @@
-#ifndef _UI_COMPASSPAGE_H_
-#define _UI_COMPASSPAGE_H_
+#ifndef __UI_COMPASSPAGE_H__
+#define __UI_COMPASSPAGE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -23,4 +23,4 @@ LV_IMG_DECLARE(ui_img_compass_needle_png);
 } /*extern "C"*/
 #endif
 
-#endif  /* _UI_COMPASSPAGE_H */
+#endif  /* __UI_COMPASSPAGE_H__ */

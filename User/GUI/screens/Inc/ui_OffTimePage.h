@@ -1,5 +1,5 @@
-#ifndef _UI_OFFTIMEPAGE_H
-#define _UI_OFFTIMEPAGE_H
+#ifndef __UI_OFFTIMEPAGE_H__
+#define __UI_OFFTIMEPAGE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,4 +39,4 @@ void ui_TOffTimeSetPage_screen_deinit(void);
 } /*extern "C"*/
 #endif
 
-#endif
+#endif /*__UI_OFFTIMEPAGE_H__*/

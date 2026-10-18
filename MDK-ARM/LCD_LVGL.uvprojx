@@ -1100,6 +1100,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\GUI\screens\Src\ui_DateTimeSetPage.c</FilePath>
             </File>
+            <File>
+              <FileName>ui_TimerPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_TimerPage.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
