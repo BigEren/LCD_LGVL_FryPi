@@ -57,7 +57,7 @@ uint8_t ui_TimeMinuteValue = 20;
 const char * ui_Days[7] = {"Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat.", "Sun."};
 uint8_t ui_DateMonthValue = 11;
 uint8_t ui_DateDayValue = 8;
-uint8_t ui_DataWeekdayValue = 2;
+uint8_t ui_DateWeekdayValue = 2;
 
 uint8_t ui_BatArcValue = 70;
 uint16_t ui_StepNumValue = 0;
@@ -116,20 +116,20 @@ static void HomePage_timer_cb(lv_timer_t * timer)
     if (ui_DateDayValue != nowdateTime.Date)
     {
         ui_DateDayValue = nowdateTime.Date;
-        ui_DataWeekdayValue = nowdateTime.WeekDay;
+        ui_DateWeekdayValue = nowdateTime.WeekDay;
         sprintf(value_strbuf, "%02d-%02d", ui_DateMonthValue, ui_DateDayValue);
         lv_label_set_text(ui_DateLabel, value_strbuf);
-        lv_label_set_text(ui_DayLabel, ui_Days[ui_DataWeekdayValue - 1]);
+        lv_label_set_text(ui_DayLabel, ui_Days[ui_DateWeekdayValue - 1]);
     }
 
     if (ui_DateMonthValue != nowdateTime.Month)
     {
         ui_DateMonthValue = nowdateTime.Month;
         ui_DateDayValue = nowdateTime.Date;
-        ui_DataWeekdayValue = nowdateTime.WeekDay;
+        ui_DateWeekdayValue = nowdateTime.WeekDay;
         sprintf(value_strbuf, "%02d-%02d", ui_DateMonthValue, ui_DateDayValue);
         lv_label_set_text(ui_DateLabel, value_strbuf);
-        lv_label_set_text(ui_DayLabel, ui_Days[ui_DataWeekdayValue - 1]);
+        lv_label_set_text(ui_DayLabel, ui_Days[ui_DateWeekdayValue - 1]);
     }
 
     /* update power remain label */
@@ -393,7 +393,7 @@ void ui_HomePage_screen_init(void)
     lv_obj_set_x(ui_DayLabel, -20);
     lv_obj_set_y(ui_DayLabel, -110);
     lv_obj_set_align(ui_DayLabel, LV_ALIGN_RIGHT_MID);
-    lv_label_set_text(ui_DayLabel, ui_Days[ui_DataWeekdayValue-1]);
+    lv_label_set_text(ui_DayLabel, ui_Days[ui_DateWeekdayValue-1]);
     lv_obj_set_style_text_color(ui_DayLabel, lv_color_hex(0xFF461E), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_DayLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_DayLabel, &lv_font_montserrat_20, LV_PART_MAIN | LV_STATE_DEFAULT);

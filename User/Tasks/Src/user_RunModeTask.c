@@ -13,6 +13,9 @@
 #include "lcd.h"
 #include "spi.h"
 
+#include "ui_OffTimePage.h"
+
+
 /* Idle Time Count */
 uint16_t IdleTimeCount = 0;
 
@@ -180,12 +183,12 @@ void StopEnterTask(void *argument)
 void IdleTimerCallback(void *argument)
 {
     IdleTimeCount++;
-    if (IdleTimeCount == 100)
+    if (IdleTimeCount == (ui_LTimeValue * 10))
     {
         uint8_t Idlestr = 0;
         osMessageQueuePut(Idle_MessageQueue, &Idlestr, NULL, 1);
     }
-    if (IdleTimeCount == 150)
+    if (IdleTimeCount == (ui_TTimeValue * 10))
     {
         uint8_t Stopstr = 1;
         IdleTimeCount = 0;

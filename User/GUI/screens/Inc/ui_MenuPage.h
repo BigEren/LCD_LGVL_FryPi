@@ -18,7 +18,7 @@ extern "C" {
 #define ENVIRONMENT_PAGE_EN		1
 #define COMPASS_PAGE_EN			1
 #define GAME_PAGE_EN            0
-#define SET_PAGE_EN				0
+#define SET_PAGE_EN				1
 #define ABOUT_PAGE_EN			0
 
 extern lv_obj_t * ui_MenuPage;

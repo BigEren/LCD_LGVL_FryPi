@@ -49,7 +49,7 @@ extern uint8_t ui_TimeHourValue;
 extern uint8_t ui_TimeMinuteValue;
 extern uint8_t ui_DateMonthValue;
 extern uint8_t ui_DateDayValue;
-extern uint8_t ui_DataWeekdayValue;
+extern uint8_t ui_DateWeekdayValue;
 extern const char * ui_Days[7];
 
 extern uint8_t ui_BatArcValue;

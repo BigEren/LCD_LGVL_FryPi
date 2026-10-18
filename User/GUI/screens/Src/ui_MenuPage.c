@@ -6,6 +6,7 @@
 #include "ui_HRPage.h"
 #include "HWDataAccess.h"
 #include "ui_SPO2Page.h"
+#include "ui_SetPage.h"
 
 
 

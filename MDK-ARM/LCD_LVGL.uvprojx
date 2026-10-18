@@ -1085,6 +1085,21 @@
               <FileType>1</FileType>
               <FilePath>..\User\GUI\screens\Src\ui_SPO2Page.c</FilePath>
             </File>
+            <File>
+              <FileName>ui_SetPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_SetPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_OffTimePage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_OffTimePage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_DateTimeSetPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_DateTimeSetPage.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
