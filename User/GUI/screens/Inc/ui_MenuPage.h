@@ -17,7 +17,7 @@ extern "C" {
 #define O2_PAGE_EN				1
 #define ENVIRONMENT_PAGE_EN		1
 #define COMPASS_PAGE_EN			1
-#define GAME_PAGE_EN            0
+#define GAME_PAGE_EN            1
 #define SET_PAGE_EN				1
 #define ABOUT_PAGE_EN			0
 

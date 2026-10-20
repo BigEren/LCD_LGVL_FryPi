@@ -1105,6 +1105,21 @@
               <FileType>1</FileType>
               <FilePath>..\User\GUI\screens\Src\ui_TimerPage.c</FilePath>
             </File>
+            <File>
+              <FileName>ui_GameSelectPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_GameSelectPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_Game2048Page.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_Game2048Page.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_GameMemPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_GameMemPage.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
