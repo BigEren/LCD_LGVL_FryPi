@@ -5,6 +5,7 @@
 #include "ui_MenuPage.h"
 #include "ui_OffTimePage.h"
 #include "ui_DateTimeSetPage.h"
+#include "ui_Megboxes.h"
 
 Page_t Page_Set = {ui_SetPage_screen_init, ui_SetPage_screen_deinit, &ui_SetPage};
 
@@ -99,7 +100,7 @@ void ui_event_PasswordPanel(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED)
     {
-
+        ui_mbox_create("开发中");
     }
 }
 

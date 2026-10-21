@@ -9,6 +9,8 @@
 #include "ui_SetPage.h"
 #include "ui_TimerPage.h"
 #include "ui_GameSelectPage.h"
+#include "ui_NFCCardPage.h"
+#include "ui_AboutPage.h"
 
 
 
@@ -170,7 +172,7 @@ void ui_event_MenuSprPanel(lv_event_t * e)
     if(event_code == LV_EVENT_CLICKED)
     {
         #if SPROTS_PAGE_EN
-
+            ui_mbox_create("开发中");
         #else
 
 
@@ -186,9 +188,9 @@ void ui_event_MenuHRPanel(lv_event_t * e)
     if(event_code == LV_EVENT_CLICKED)
     {
         #if HR_PAGE_EN
-					Page_Load(&Page_HR);
-                    //send the sensor wakeup message
-                    HWInterface.MAX30102.WakeUp();
+            Page_Load(&Page_HR);
+            //send the sensor wakeup message
+            HWInterface.MAX30102.WakeUp();
         #else
 
 

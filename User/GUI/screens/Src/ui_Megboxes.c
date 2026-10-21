@@ -9,6 +9,8 @@ lv_obj_t * ui_ApplyLabel;
 lv_obj_t * ui_CancelPanel;
 lv_obj_t * ui_CancelLabel;
 
+#define SCRROLL_Y 75
+
 void ui_mbox_close(void)
 {
     lv_obj_del(ui_mboxPanel);
@@ -49,6 +51,8 @@ void ui_mbox_create(uint8_t * text)
     lv_obj_set_style_bg_color(ui_mboxPanel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_mboxPanel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui_mboxPanel, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_y(ui_mboxPanel, lv_obj_get_scroll_y(lv_scr_act()));
+
 
     ui_WarningSymbol = lv_label_create(ui_mboxPanel);
     lv_obj_set_width(ui_WarningSymbol, LV_SIZE_CONTENT);   /// 1

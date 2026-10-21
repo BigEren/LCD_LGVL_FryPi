@@ -1,0 +1,32 @@
+#ifndef __UI_NFCCARDPAGE_H__
+#define __UI_NFCCARDPAGE_H__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "ui.h"
+extern lv_obj_t * ui_NFCCardPage;
+extern lv_obj_t * ui_Card1Panel;
+extern lv_obj_t * ui_Card1Btn;
+extern lv_obj_t * ui_Card1icon;
+extern lv_obj_t * ui_Card1Label;
+extern lv_obj_t * ui_Card2Panel;
+extern lv_obj_t * ui_Card2Btn;
+extern lv_obj_t * ui_Card2icon;
+extern lv_obj_t * ui_Card2Label;
+extern lv_obj_t * ui_Card3Panel;
+extern lv_obj_t * ui_Card3Btn;
+extern lv_obj_t * ui_Card3icon;
+extern lv_obj_t * ui_Card3Label;
+
+extern Page_t Page_NFCCard;
+
+void ui_NFCCardPage_screen_init(void);
+void ui_NFCCardPage_screen_deinit(void);
+
+#ifdef __cplusplus
+} /*extern "C"*/
+#endif
+
+#endif /*__UI_NFCCARDPAGE_H__*/

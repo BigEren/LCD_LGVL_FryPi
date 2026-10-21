@@ -1120,6 +1120,21 @@
               <FileType>1</FileType>
               <FilePath>..\User\GUI\screens\Src\ui_GameMemPage.c</FilePath>
             </File>
+            <File>
+              <FileName>ui_AboutPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_AboutPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_Megboxes.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_Megboxes.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_NFCCardPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\GUI\screens\Src\ui_NFCCardPage.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
